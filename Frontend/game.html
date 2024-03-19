@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu préfères - Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="questionContainer">
+        <p class="question">Avoir plus de temps ou Avoir plus d'argent ?</p>
+        <div class="optionContainer">
+            <div class="option" id="optionA" onclick="chooseOption('A')">Plus de temps</div>
+            <div class="option" id="optionB" onclick="chooseOption('B')">Plus d'argent</div>
+        </div>
+        <button id="nextQuestionButton">Question suivante</button> <!-- Ajout du bouton "Question suivante" -->
+    </div>
+
+    <script>
+        function chooseOption(option) {
+            // Code pour choisir l'option...
+        }
+
+        document.getElementById('nextQuestionButton').addEventListener('click', function () {
+            // Code pour rediriger vers la prochaine question...
+            redirectToNextQuestion();
+        });
+
+        function redirectToNextQuestion() {
+            // Code pour rediriger vers la prochaine question
+            // Par exemple, vous pouvez utiliser window.location.href pour rediriger l'utilisateur vers une autre URL
+            window.location.href = 'game2.html'; // Remplacez 'prochaine_question.html' par l'URL de la prochaine question
+        }
+    </script>
+</body>
+
+</html>

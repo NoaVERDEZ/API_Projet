@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Connexion</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+</head>
+
+<body>
+
+  <div class="loginForm">
+    <form>
+      <p class="formTitle"><strong>Se connecter</strong></p>
+      <div id="loginResult" style="color: red; margin: 2%;"></div>
+
+      <label for="Username">Nom d'utilisateur</label>
+      <input type="text" name="Username" id="Username_input">
+
+      <label for="Password">Mot de passe</label>
+      <input type="password" name="Password" id="Password_input">
+
+      <div class="buttonContainer">
+        <div id="boutonlogin" onclick="submitLoginForm()">Se connecter</div>
+        <script>
+          async function submitLoginForm() {
+            const usernameInput = document.getElementById('Username_input');
+            const passwordInput = document.getElementById('Password_input');
+            const loginResultDiv = document.getElementById('loginResult');
+
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            usernameInput.value = '';
+            passwordInput.value = '';
+
+            const data = {
+              identifiant: username,
+              password: password
+            };
+
+            try {
+              const response = await fetch('http://192.168.64.250:3000/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Basic ' + btoa(username + ':' + password)
+                },
+                body: JSON.stringify(data)
+              });
+
+              if (response.ok) {
+                const loginResponse = await response.json();
+                console.log('Réponse du serveur:', loginResponse);
+
+                document.cookie = "app_token=" + encodeURIComponent(loginResponse.userUUID) + "; max-age=" + (7 * 24 * 60 * 60);
+
+                loginResultDiv.textContent = 'Connexion réussie!';
+                loginResultDiv.style.color = 'green';
+                setTimeout(() => {
+                  window.location.href = 'game.html';
+                }, 2000);
+              } else {
+                console.error('Erreur lors de la requête:', response.statusText);
+
+                loginResultDiv.textContent = 'Erreur de connexion. Veuillez réessayer.';
+                loginResultDiv.style.color = 'red';
+              }
+            } catch (error) {
+              console.error('Erreur lors de la requête:', error.message);
+
+              loginResultDiv.textContent = 'Erreur de connexion. Veuillez réessayer.';
+              loginResultDiv.style.color = 'red';
+            }
+          }
+        </script>
+
+        <div id="boutonregister">S'inscrire</div>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var boutonregister = document.getElementById("boutonregister");
+
+            boutonregister.addEventListener("click", function () {
+              window.location.href = "register.html";
+            });
+          });
+        </script>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
+
+
+
